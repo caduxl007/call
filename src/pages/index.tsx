@@ -1,9 +1,5 @@
-import { Inter } from '@next/font/google'
-
+import { Heading } from "@ignite-ui/react";
 
 export default function Home() {
-  return (
-    <h1>Hello word</h1>
-     
-  )
+  return <Heading>Hello word</Heading>;
 }
