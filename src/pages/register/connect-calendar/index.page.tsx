@@ -1,25 +1,17 @@
 import { Button, Heading, MultiStep, Text, TextInput } from "@ignite-ui/react";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { ArrowRight, Check } from "phosphor-react";
 
 import { Container, Header } from "../styles";
+import { useRegister } from "./hooks/useRegister";
 import { ConnectBox, ConnectItem, AuthError } from "./styles";
 
 export default function Register() {
-  const session = useSession();
-  const router = useRouter();
-
-  const hasAuthError = !!router.query?.error;
-  const isSignedIn = session.status === "authenticated";
-
-  async function handleConnectCalendar() {
-    await signIn('google')
-  }
-
-  async function handleNavigateToNextStep() {
-    await router.push('/register/time-intervals')
-  }
+  const {
+    hasAuthError,
+    isSignedIn,
+    handleConnectCalendar,
+    handleNavigateToNextStep,
+  } = useRegister();
 
   return (
     <Container>
@@ -40,7 +32,7 @@ export default function Register() {
 
           {isSignedIn ? (
             <Button size="sm" disabled>
-              Conectado 
+              Conectado
               <Check />
             </Button>
           ) : (
@@ -62,7 +54,11 @@ export default function Register() {
           </AuthError>
         )}
 
-        <Button onClick={handleNavigateToNextStep} type="submit" disabled={!isSignedIn}>
+        <Button
+          onClick={handleNavigateToNextStep}
+          type="submit"
+          disabled={!isSignedIn}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
