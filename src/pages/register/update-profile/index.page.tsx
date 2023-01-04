@@ -10,9 +10,11 @@ import {
 import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth/next";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { ArrowRight } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { api } from "../../../lib/axios";
 import { builderNextAuthOptions } from "../../api/auth/[...nextauth].api";
 
 import { Container, Header } from "../styles";
@@ -34,8 +36,15 @@ export default function UpdateProfile() {
   });
 
   const session = useSession();
+  const router = useRouter();
 
-  async function handleUpdateProfile(data: UpdateProfileData) {}
+  async function handleUpdateProfile(data: UpdateProfileData) {
+    api.put("/users/profile", {
+      bio: data.bio,
+    });
+
+    await router.push(`/schedule/${session.data?.user.username}`)
+  }
 
   return (
     <Container>
