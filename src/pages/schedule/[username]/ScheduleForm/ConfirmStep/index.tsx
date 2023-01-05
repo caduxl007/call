@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Text, TextArea, TextInput } from "@ignite-ui/react";
+import dayjs from "dayjs";
 import { CalendarBlank, Clock } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,13 +8,21 @@ import { ConfirmForm, FormActions, FormError, FormHeader } from "./styles";
 
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: "O nome precisa de no mínimo 3 letras" }),
-  email: z.string().email({message: 'Digite um e-mail válido'}),
+  email: z.string().email({ message: "Digite um e-mail válido" }),
   observations: z.string().nullable(),
 });
 
 type ConfirmFormData = z.infer<typeof confirmFormSchema>;
 
-export function ConfirmStep() {
+interface ConfirmStepProps {
+  schedulingDate: Date;
+  onCancelConfirmation: () => void;
+}
+
+export function ConfirmStep({
+  schedulingDate,
+  onCancelConfirmation,
+}: ConfirmStepProps) {
   const {
     register,
     handleSubmit,
@@ -22,6 +31,9 @@ export function ConfirmStep() {
     resolver: zodResolver(confirmFormSchema),
   });
 
+  const describedDate = dayjs(schedulingDate).format("DD[ de ]MMMM[ de ]YYYY");
+  const describeTime = dayjs(schedulingDate).format("HH:mm[h]");
+
   async function handleConfirmSchedule(data: ConfirmFormData) {}
 
   return (
@@ -29,11 +41,11 @@ export function ConfirmStep() {
       <FormHeader>
         <Text>
           <CalendarBlank />
-          22 de setembro de 2022
+          {describedDate}
         </Text>
         <Text>
           <Clock />
-          18:00h
+          {describeTime}
         </Text>
       </FormHeader>
 
@@ -50,7 +62,9 @@ export function ConfirmStep() {
           placeholder="cadu@gmail.com"
           {...register("email")}
         />
-        {errors.email && <FormError size="sm">{errors.email.message}</FormError>}
+        {errors.email && (
+          <FormError size="sm">{errors.email.message}</FormError>
+        )}
       </label>
 
       <label>
@@ -59,7 +73,7 @@ export function ConfirmStep() {
       </label>
 
       <FormActions>
-        <Button type="button" variant="tertiary">
+        <Button type="button" variant="tertiary" onClick={onCancelConfirmation}>
           Cancelar
         </Button>
         <Button type="submit" disabled={isSubmitting}>
