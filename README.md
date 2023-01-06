@@ -1,7 +1,5 @@
 <h1 align="center">Call</h1>
 
-Connect your calendar and let people book appointments in their free time.
-
 
 ## 🛠 Tecnologias
 
