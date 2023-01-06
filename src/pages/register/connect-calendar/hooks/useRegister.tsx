@@ -9,18 +9,17 @@ export function useRegister() {
   const isSignedIn = session.status === "authenticated";
 
   async function handleConnectCalendar() {
-    await signIn('google')
+    await signIn("google");
   }
 
   async function handleNavigateToNextStep() {
-    await router.push('/register/time-intervals')
+    await router.push("/register/timer-intervals");
   }
 
- 
   return {
     hasAuthError,
     isSignedIn,
     handleConnectCalendar,
-    handleNavigateToNextStep
-  }
+    handleNavigateToNextStep,
+  };
 }
