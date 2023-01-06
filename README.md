@@ -1,6 +1,5 @@
 <h1 align="center">Call</h1>
 
-
 ## 🛠 Tecnologias
 
 As seguintes ferramentas/tecnologias foram usadas na construção do projeto:  
